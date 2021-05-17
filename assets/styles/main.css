@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.typing-area {
+  font-family: "JetBrains Mono";
+  letter-spacing: 0;
+}
+
+/* .typing-textarea {
+  @apply absolute top-0 left-0 w-full h-full bg-transparent text-transparent select-none;
+} */
+
+.typing-textarea {
+  resize: none;
+  outline: 0;
+  z-index: 20;
+  color: transparent;
+  font-size: 1px;
+}
+
+.word .invalid {
+  color: #ca4754;
+}
+
+.cursor {
+  display: block;
+  position: absolute;
+  width: 2px;
+  height: 30px;
+  z-index: 30;
+  left: 22px;
+  animation: blinker 1.5s linear infinite;
+  @apply bg-yellow-400;
+}
+
+.word {
+  margin-right: 11.8px;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
