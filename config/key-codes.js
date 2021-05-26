@@ -156,5 +156,6 @@ export const allowedKeys = [
   ")",
   "{",
   "}",
-  " "
+  " ",
+  "|"
 ];

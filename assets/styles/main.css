@@ -23,6 +23,7 @@
 
 .word .invalid {
   color: #ca4754;
+  @apply opacity-100;
 }
 
 .cursor {
@@ -56,12 +57,8 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #d6dee1;
+  @apply bg-gray-800 hover:bg-gray-700;
   border-radius: 20px;
   border: 6px solid transparent;
   background-clip: content-box;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: #a8bbbf;
 }

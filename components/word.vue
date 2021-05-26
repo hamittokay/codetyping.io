@@ -3,7 +3,7 @@
     <span
       v-for="(letter, i) in letters"
       :key="i"
-      class="opacity-60 text-gray-100"
+      class="opacity-40 text-gray-100"
       :class="{
         'opacity-100': isCorrect(letter, i),
         invalid: isError(letter, i),

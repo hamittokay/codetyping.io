@@ -10,6 +10,12 @@
         :key="j"
         @keypress="onKeypress"
       />
+      <img
+        v-show="activeLineIdx == i"
+        class="w-3 -mt-1"
+        src="/icons/enter.svg"
+        alt="Enter"
+      />
     </div>
   </div>
 </template>
