@@ -6,12 +6,13 @@
       class="opacity-60 text-gray-100"
       :class="{
         'opacity-100': isCorrect(letter, i),
-        invalid: isError(letter, i)
+        invalid: isError(letter, i),
+        'border-0 border-b-2 bg-gray-700': isActive(i)
       }"
     >
       {{ letter }}
     </span>
-    <span v-if="active" class="cursor" :style="{ left: `${cursorX}px` }" />
+    <!-- <span v-if="active" class="cursor" :style="{ left: `${cursorX}px` }" /> -->
   </span>
 </template>
 
@@ -40,9 +41,6 @@ export default Vue.extend({
   computed: {
     letters() {
       return this.word.split("");
-    },
-    cursorX() {
-      return this.typedWord.length * 11.8;
     }
   },
 
@@ -79,6 +77,14 @@ export default Vue.extend({
 
     isError(letter, i) {
       return this.typedWord.length > i && this.typedWord[i] !== letter;
+    },
+
+    isActive(i) {
+      return (
+        this.active &&
+        ((i === 0 && this.typedWord.length == 0) ||
+          i === this.typedWord.length - 1)
+      );
     }
   },
 

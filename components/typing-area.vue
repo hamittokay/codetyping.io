@@ -1,8 +1,8 @@
 <template>
   <div
-    class="typing-area relative flex-1 max-w-3xl mx-auto bg-gray-900 rounded-lg p-5 shadow-xl"
+    class="typing-area relative flex-1 max-w-3xl my-6 mx-auto bg-gray-900 rounded-lg p-5 shadow-xl overflow-x-scroll"
   >
-    <div class="flex text-xl" v-for="(line, i) in lines" :key="i">
+    <div class="flex" v-for="(line, i) in lines" :key="i">
       <Word
         v-for="(word, j) in words(line)"
         :word="word"
@@ -22,7 +22,7 @@ export default Vue.extend({
 
   data: () => ({
     code:
-      "func (c *Color) Print(a ...interface{}) (n int, err error) {\n\tc.Set()\n\tdefer c.unset()\n\n\treturn fmt.Fprint(Output, a...)\n}",
+      "/** Report a error in process for error collection. */\n  public report (error: Error | ListrError): void {\n    /* istanbul ignore if */\n    if (error instanceof ListrError) {\n      for (const err of error.errors) {\n        this.errors.push(err)\n        this.task.message$ = { error: err.message || this.task?.title || 'Task with no title.' }\n      }\n    } else {\n      this.errors.push(error)\n      this.task.message$ = { error: error.message || this.task?.title || 'Task with no title.' }\n    }\n  }",
     activeWordIdx: 0,
     activeLineIdx: 0,
     activeTypedWord: ""
@@ -30,7 +30,7 @@ export default Vue.extend({
 
   computed: {
     lines() {
-      return this.code.split("\n").map(_ => _.trim());
+      return this.code.split("\n");
     },
     activeWord() {
       return this.words(this.activeLine)[this.activeWordIdx] || null;
@@ -55,6 +55,7 @@ export default Vue.extend({
 
       switch (event.key) {
         case " ":
+          event.preventDefault();
           if (typedWord.length >= this.activeWord.length) {
             this.activeWordIdx++;
             this.activeTypedWord = "";
