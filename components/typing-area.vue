@@ -1,7 +1,34 @@
 <template>
   <div
-    class="typing-area relative flex-1 max-w-3xl my-6 mx-auto bg-gray-900 rounded-lg p-5 shadow-xl overflow-x-scroll"
+    class="typing-area relative flex-1 max-w-3xl my-6 mx-auto bg-gray-900 rounded-lg p-5 shadow-xl"
+    id="typing-area"
+    :class="{
+      'overflow-x-scroll': playgroundActive,
+      'overflow-x-hidden': !playgroundActive
+    }"
   >
+    <div
+      class="absolute inset-0 w-full h-full bg-opacity-80 bg-gray-900 z-20 hover:text-white text-gray-600 flex items-center justify-center cursor-pointer"
+      role="button"
+      id="playground-activator"
+      v-if="!playgroundActive"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="60"
+        height="60"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-play"
+      >
+        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+      </svg>
+    </div>
+
     <div class="flex" v-for="(line, i) in lines" :key="i">
       <Word
         v-for="(word, j) in words(line)"
@@ -9,6 +36,7 @@
         :active="activeWordIdx === j && activeLineIdx == i"
         :key="j"
         @keypress="onKeypress"
+        :playgroundActive="playgroundActive"
       />
       <img
         v-show="activeLineIdx == i"
@@ -31,7 +59,8 @@ export default Vue.extend({
       "/** Report a error in process for error collection. */\n  public report (error: Error | ListrError): void {\n    /* istanbul ignore if */\n    if (error instanceof ListrError) {\n      for (const err of error.errors) {\n        this.errors.push(err)\n        this.task.message$ = { error: err.message || this.task?.title || 'Task with no title.' }\n      }\n    } else {\n      this.errors.push(error)\n      this.task.message$ = { error: error.message || this.task?.title || 'Task with no title.' }\n    }\n  }",
     activeWordIdx: 0,
     activeLineIdx: 0,
-    activeTypedWord: ""
+    activeTypedWord: "",
+    playgroundActive: false
   }),
 
   computed: {
@@ -52,6 +81,10 @@ export default Vue.extend({
   methods: {
     words(line) {
       return line && typeof line === "string" ? line.split(" ") : [];
+    },
+
+    startTyping() {
+      this.playgroundActive = true;
     },
 
     onKeypress({ event, typedWord }) {
@@ -93,6 +126,16 @@ export default Vue.extend({
           break;
       }
     }
+  },
+
+  mounted() {
+    window.addEventListener("click", e => {
+      if (document.getElementById("typing-area").contains(e.target)) {
+        this.playgroundActive = true;
+      } else {
+        this.playgroundActive = false;
+      }
+    });
   }
 });
 </script>

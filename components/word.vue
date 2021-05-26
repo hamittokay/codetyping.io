@@ -35,6 +35,10 @@ export default Vue.extend({
     active: {
       type: Boolean,
       required: true
+    },
+    playgroundActive: {
+      type: Boolean,
+      required: true
     }
   },
 
@@ -47,7 +51,7 @@ export default Vue.extend({
   methods: {
     initListener() {
       this.keydownListener = window.addEventListener("keydown", event => {
-        if (this.active) {
+        if (this.active && this.playgroundActive) {
           const { key } = event;
           if (allowedKeys.includes(key.toLowerCase())) {
             if (this.word.length > this.typedWord.length) {
@@ -96,7 +100,7 @@ export default Vue.extend({
 
   watch: {
     active(value) {
-      if (value) {
+      if (value && this.playgroundActive) {
         this.initListener();
       } else {
         this.destroyListener();
