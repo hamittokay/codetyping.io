@@ -4,8 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
-.typing-area {
+body {
   font-family: "JetBrains Mono";
+}
+
+.typing-area {
   letter-spacing: 0;
 }
 

@@ -131,7 +131,7 @@ export default Vue.extend({
 
   data: () => ({
     links: [
-      { href: "/", text: "Dashboard" },
+      { href: "/", text: "Playground" },
       { href: "/about", text: "About" }
     ]
   }),

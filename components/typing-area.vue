@@ -1,6 +1,6 @@
 <template>
   <div
-    class="typing-area relative flex-1 max-w-3xl my-6 mx-auto bg-gray-900 rounded-lg p-5 shadow-xl"
+    class="typing-area relative flex-1 my-6 mx-auto bg-gray-900 rounded-lg p-5 shadow-xl"
     id="typing-area"
     :class="{
       'overflow-x-scroll': playgroundActive,
@@ -29,7 +29,15 @@
       </svg>
     </div>
 
-    <div class="flex" v-for="(line, i) in lines" :key="i">
+    <div class="flex h-8" v-for="(line, i) in lines" :key="i">
+      <span
+        class=" mr-3 -ml-2 mt-1"
+        :class="{
+          'text-white': activeLineIdx == i,
+          'text-gray-500': activeLineIdx !== i
+        }"
+        >{{ i + 1 }}</span
+      >
       <Word
         v-for="(word, j) in words(line)"
         :word="word"
@@ -40,7 +48,7 @@
       />
       <img
         v-show="activeLineIdx == i"
-        class="w-3 -mt-1"
+        class="w-2 -mt-1"
         src="/icons/enter.svg"
         alt="Enter"
       />
@@ -56,11 +64,11 @@ export default Vue.extend({
 
   data: () => ({
     code:
-      "/** Report a error in process for error collection. */\n  public report (error: Error | ListrError): void {\n    /* istanbul ignore if */\n    if (error instanceof ListrError) {\n      for (const err of error.errors) {\n        this.errors.push(err)\n        this.task.message$ = { error: err.message || this.task?.title || 'Task with no title.' }\n      }\n    } else {\n      this.errors.push(error)\n      this.task.message$ = { error: error.message || this.task?.title || 'Task with no title.' }\n    }\n  }",
+      "fun! gotest#write_file(path, contents) abort\n  let l:dir = go#util#tempdir(\"vim-go-test/testrun/\")\n  let $GOPATH .= ':' . l:dir\n  let l:full_path = l:dir . '/src/' . a:path\n\n  call mkdir(fnamemodify(l:full_path, ':h'), 'p')\n  call writefile(a:contents, l:full_path)\n  call s:setupproject(printf('%s/src', l:dir), a:path)\n\n  silent exe 'e! ' . a:path\n",
     activeWordIdx: 0,
     activeLineIdx: 0,
     activeTypedWord: "",
-    playgroundActive: false
+    playgroundActive: true
   }),
 
   computed: {
@@ -74,7 +82,7 @@ export default Vue.extend({
       return this.lines[this.activeLineIdx];
     },
     isActiveWordLastWordOfActiveLine() {
-      return this.words(this.activeLine).length - 1 === this.activeWordIdx;
+      return this.words(this.activeLine)?.length - 1 === this.activeWordIdx;
     }
   },
 
@@ -95,7 +103,7 @@ export default Vue.extend({
       switch (event.key) {
         case " ":
           event.preventDefault();
-          if (typedWord.length >= this.activeWord.length) {
+          if (typedWord && typedWord.length >= this.activeWord.length) {
             this.activeWordIdx++;
             this.activeTypedWord = "";
           }

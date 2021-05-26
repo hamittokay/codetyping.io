@@ -7,7 +7,7 @@
       :class="{
         'opacity-100': isCorrect(letter, i),
         invalid: isError(letter, i),
-        'border-0 border-b-2 bg-gray-700': isActive(i)
+        'border-0 border-b-2 opacity-60 bg-gray-600': isActive(i)
       }"
     >
       {{ letter }}
